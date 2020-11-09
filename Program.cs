@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using ScrapySharp.Extensions;
 
-namespace ConsoleApp2
+namespace ProyectoArqui
 {
    class Program
     {
