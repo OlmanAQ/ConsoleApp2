@@ -12,7 +12,11 @@ namespace ProyectoArqui
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hola mundo");
+            Operaciones prueba = new Operaciones();
+            prueba.PrimeraPagina();
+            Operaciones prueba2 = new Operaciones();
+            prueba2.Nota();
+            //Console.WriteLine("si corre xd");
         }
     }
 }
