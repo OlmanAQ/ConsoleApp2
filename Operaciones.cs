@@ -72,5 +72,33 @@ namespace ProyectoArqui
 
         }
 
+
+        public void DirectorPelicula()
+        {
+            List<String> lista3 = new List<String>();
+            HtmlWeb web3 = new HtmlWeb();
+
+            String url = "https://www.filmaffinity.com/cr/topgen.php?genre=&fromyear=&toyear=&country=&nodoc&notvse";
+            HtmlDocument document3 = web3.Load(url);
+            url += "!page=";
+            for (int i = 1; i <= 30; i++)
+            {
+                int s = i;
+                String v = url + s;
+                //Console.WriteLine(v);
+                HtmlDocument document4 = web3.Load(v);
+                foreach (var nodo in document4.DocumentNode.CssSelect(".nb"))
+                {
+                    var nodo2 = nodo.CssSelect("span").First();
+                    lista3.Add(nodo2.InnerHtml);
+                }
+            }
+
+            foreach (var item in lista3)
+            {
+                Console.WriteLine("Director de película" + item);
+            }
+        }
+
     }
 }

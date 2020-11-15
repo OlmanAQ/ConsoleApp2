@@ -13,9 +13,11 @@ namespace ProyectoArqui
         static void Main(string[] args)
         {
             Operaciones prueba = new Operaciones();
-            prueba.PrimeraPagina();
-            Operaciones prueba2 = new Operaciones();
-            prueba2.Nota();
+            //prueba.PrimeraPagina();
+            //Operaciones prueba2 = new Operaciones();
+            //prueba2.Nota();
+            Operaciones prueba3 = new Operaciones();
+            prueba.DirectorPelicula();
             //Console.WriteLine("si corre xd");
         }
     }
