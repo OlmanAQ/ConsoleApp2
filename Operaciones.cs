@@ -14,6 +14,8 @@ namespace ProyectoArqui
     { 
         public int califinal2;
         public float califinal;
+        public String fecha;
+
         //recibe el titulo compara y devuelve la calificacion
         public float PrimeraPagina(String nombre) // obtiene los titulos y calificacion de todas las peliculas en la página sensacine
         {
@@ -56,7 +58,7 @@ namespace ProyectoArqui
 
 
 
-        public int SegundaPagina(String nombre)  // obtiene los titulos y calificacion de todas las peliculas en la página de metacritic
+        public int SegundaPagina(String nombre2)  // obtiene los titulos y calificacion de todas las peliculas en la página de metacritic
         {
             List<String> lista3 = new List<String>();
             HtmlWeb web3 = new HtmlWeb();
@@ -66,8 +68,8 @@ namespace ProyectoArqui
             foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
             {
                 var nodo2 = nodo.CssSelect("h3").First();
-                var titulo = nodo2.InnerHtml;
-                if (titulo.Equals(nombre))
+                var titulo2 = nodo2.InnerHtml;
+                if (titulo2.Equals(nombre2))
                 {
                     var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
                     califinal2 = Convert.ToInt32(nodo3.InnerHtml);
@@ -83,8 +85,8 @@ namespace ProyectoArqui
                 foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
                 {
                     var nodo2 = nodo.CssSelect("h3").First();
-                    var titulo = nodo2.InnerHtml;
-                    if (titulo.Equals(nombre))
+                    var titulo2 = nodo2.InnerHtml;
+                    if (titulo2.Equals(nombre2))
                     {
                         var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
                         califinal2 = Convert.ToInt32(nodo3.InnerHtml);
@@ -97,7 +99,7 @@ namespace ProyectoArqui
        
 
 
-        public void TerceraPagina()  // obtiene la fecha de lanzamiento de todas las peliculas en la página de metacritic
+        public String TerceraPagina(String nombre3)  // obtiene la fecha de lanzamiento de todas las peliculas en la página de metacritic
         {
             List<String> lista5 = new List<String>();
             HtmlWeb web5 = new HtmlWeb();
@@ -107,10 +109,14 @@ namespace ProyectoArqui
             foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-summary-wrap"))
             {
                 var nodo2 = nodo.CssSelect("h3").First();
-                lista5.Add(nodo2.InnerHtml);
-                var nodo3 = nodo.CssSelect(".clamp-details");
-                var nodo4 = nodo3.CssSelect("span").First();
-                lista5.Add(nodo4.InnerHtml);
+                String titulo3 = nodo2.InnerHtml;
+                if (nombre3.Equals(titulo3))
+                {
+                    var nodo3 = nodo.CssSelect(".clamp-details");
+                    var nodo4 = nodo3.CssSelect("span").First();
+                    fecha = nodo4.InnerHtml;
+                    break;
+                }
             }
             url += "&page=";
             for (int i = 1; i <= 5; i++)
@@ -121,18 +127,21 @@ namespace ProyectoArqui
                 foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-summary-wrap"))
                 {
                     var nodo2 = nodo.CssSelect("h3").First();
-                    lista5.Add(nodo2.InnerHtml);
-                    var nodo3 = nodo.CssSelect(".clamp-details");
-                    var nodo4 = nodo3.CssSelect("span").First();
-                    lista5.Add(nodo4.InnerHtml);
+                    String titulo3 = nodo2.InnerHtml;
+                    if (nombre3.Equals(titulo3))
+                    {
+                        var nodo3 = nodo.CssSelect(".clamp-details");
+                        var nodo4 = nodo3.CssSelect("span").First();
+                        fecha = nodo4.InnerHtml;
+                        break;
+                    }
                 }
             }
-
-            foreach (var item in lista5)
-            {
-                Console.WriteLine("nota de pelicula: " + item);
-            }
+            return fecha;   
         }
+
+
+
 
     }
 }
