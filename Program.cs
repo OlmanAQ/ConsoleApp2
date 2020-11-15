@@ -10,16 +10,22 @@ using System.IO;
 namespace ProyectoArqui
 {
    class Program
-    {
+   {
+
         static void Main(string[] args)
         {
             Operaciones prueba = new Operaciones();
-            //prueba.PrimeraPagina();
-            //prueba.SegundaPagina();
-            //prueba.TerceraPagina();
 
-            //el error puede ser que la lista que mando de vyuelta con la calificacion tenga que cambair o no quien sabe mañana me dare
-            //cuenta xd
+            //List<String> Peliculas = new List<string>() { "Mank", "Nomadland", "Tenet" };
+
+            //foreach (var item in Peliculas)
+            //{
+            //    double cali = prueba.PrimeraPagina(item); //se manda el tiulo y se devuelve la calificacion
+            //    int cali2 = prueba.SegundaPagina(item); //se manda titulo y devuelve calificacion
+            //    Console.WriteLine("Pelicula: " + item + " Calificaciones: " + "Sensacine: " + cali + " Metacritic: " + cali2);
+            //}
+
+
 
 
             String linea;
@@ -28,21 +34,21 @@ namespace ProyectoArqui
                 //Pasa la ruta del archivo y el nombre del archivo al constructor StreamReader
                 StreamReader sr = new StreamReader("C:\\Users\\Kristel Salas\\source\\repos\\ProyectoArqui\\Peliculas.txt");//direccion local en donde se guarda el archivo
                 linea = sr.ReadLine(); //Lee la primera línea de texto
+                float cali = prueba.PrimeraPagina(linea); //se manda el tiulo y se devuelve la calificacion
+                int cali2 = prueba.SegundaPagina(linea); //se manda titulo y devuelve calificacion
+                Console.WriteLine("--Nombre de la película:" + linea + " --Calificacion de la pelicula: " + " Sensacine:" + cali + " Metacritic:" + cali2);
                 while (linea != null) //Continúa leyendo hasta llegar al final del archivo
                 {
-                    //Console.WriteLine(linea); //escribe la linea en la ventana de la consola
-                    double cali = prueba.PrimeraPagina(linea); //se manda el tiulo y se devuelve la calificacion
-                    int cali2 = prueba.SegundaPagina(linea); //se manda titulo y devuelve calificacion
-                    Console.WriteLine("nombre de la película:"+linea + " Calificacion de la pelicula: " +cali);
-                    Console.WriteLine("nombre de la película:" + linea + " Calificacion de la pelicula: " + cali2);
+                    float cali3 = prueba.PrimeraPagina(linea); //se manda el tiulo y se devuelve la calificacion
+                    int cali4 = prueba.SegundaPagina(linea); //se manda titulo y devuelve calificacion
+                    Console.WriteLine("--Nombre de la película: " + linea + " --Calificacion de la pelicula: " + " Sensacine:" +cali3 +"  Metacritic:"+ cali4 );
                     linea = sr.ReadLine(); //Lee la siguiente línea
-                }               
+                }
                 sr.Close();//cierra el archivo
             }
-            catch (ArgumentOutOfRangeException outOfRange)
+            catch (Exception e)
             {
-                Console.WriteLine("Exception: " + outOfRange.Message);
-                //Console.WriteLine("Exception: " + e.Message);
+                Console.WriteLine("Exception: " + e.Message);
             }
             finally
             {
@@ -68,5 +74,5 @@ namespace ProyectoArqui
             //); //cierre del parallel invoke
 
         }
-    }
+   }
 }

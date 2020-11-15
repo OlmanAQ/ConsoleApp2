@@ -9,78 +9,73 @@ using ScrapySharp.Extensions;
 
 namespace ProyectoArqui
 {
+    
     class Operaciones
-    {
+    { 
+        public int califinal2;
+        public float califinal;
         //recibe el titulo compara y devuelve la calificacion
-        public double PrimeraPagina(String nombre) // obtiene los titulos y calificacion de todas las peliculas en la página sensacine
+        public float PrimeraPagina(String nombre) // obtiene los titulos y calificacion de todas las peliculas en la página sensacine
         {
             List<String> lista = new List<String>();
             HtmlWeb web1 = new HtmlWeb();
-
-            String url = "http://www.sensacine.com/peliculas/criticas-sensacine/";
+            String url = "http://www.sensacine.com/peliculas/mejores/nota-sensacine/decada-2020/";
             HtmlDocument document = web1.Load(url);
 
-            foreach (var nodo in document.DocumentNode.CssSelect(".card.entity-card.entity-card-list.cf"))
+            foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
             {
-                var nodo2 = nodo.CssSelect(".meta-title-link").First();
-                //lista.Add(nodo2.InnerHtml);
+                var nodo2 = nodo.CssSelect("a.no_underline").First();               
                 var titulo = nodo2.InnerHtml;
                 if (titulo.Equals(nombre))
                 {
-                    var nodo3 = nodo.CssSelect(".stareval-note").First();                  
-                    lista.Add(nodo3.InnerHtml);
+                    var nodo3 = nodo.CssSelect(".note").First();                  
+                    califinal = float.Parse(nodo3.InnerHtml);
+                    break;
                 }
-                
             }
             url += "?page=";
-            for (int i = 1; i <= 10; i++)//410
+            for (int i = 1; i <= 20; i++)//66
             {
                 int s = i;
                 String v = url + s;
                 document = web1.Load(v);
-                foreach (var nodo in document.DocumentNode.CssSelect(".card.entity-card.entity-card-list.cf"))
+                foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
                 {
-                    var nodo2 = nodo.CssSelect(".meta-title-link").First();
-                    //lista.Add(nodo2.InnerHtml);
+                    var nodo2 = nodo.CssSelect(".no_underline").First();
                     var titulo = nodo2.InnerHtml;
                     if (titulo.Equals(nombre))
                     {
-                        var nodo3 = nodo.CssSelect(".stareval-note").First();
-                        lista.Add(nodo3.InnerHtml);
+                        var nodo3 = nodo.CssSelect(".note").First();
+                        califinal = float.Parse(nodo3.InnerHtml);
+                        break;
                     }
                 }
             }
-
-            //foreach (var item in lista)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            double califinal = Convert.ToDouble(lista[0]);
             return califinal;
         }
-       
+
 
 
         public int SegundaPagina(String nombre)  // obtiene los titulos y calificacion de todas las peliculas en la página de metacritic
         {
             List<String> lista3 = new List<String>();
             HtmlWeb web3 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
+            String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document3 = web3.Load(url);
 
             foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
             {
                 var nodo2 = nodo.CssSelect("h3").First();
-                //lista3.Add(nodo2.InnerHtml);
                 var titulo = nodo2.InnerHtml;
                 if (titulo.Equals(nombre))
                 {
                     var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
-                    lista3.Add(nodo3.InnerHtml);
+                    califinal2 = Convert.ToInt32(nodo3.InnerHtml);
+                    break;
                 }               
             }
             url += "&page=";
-            for (int i = 1; i <= 10; i++)//137
+            for (int i = 1; i <= 5; i++)//5
             {
                 int s = i;
                 String v = url + s;
@@ -88,22 +83,16 @@ namespace ProyectoArqui
                 foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
                 {
                     var nodo2 = nodo.CssSelect("h3").First();
-                    //lista3.Add(nodo2.InnerHtml);
                     var titulo = nodo2.InnerHtml;
                     if (titulo.Equals(nombre))
                     {
                         var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
-                        lista3.Add(nodo3.InnerHtml);
+                        califinal2 = Convert.ToInt32(nodo3.InnerHtml);
+                        break;
                     }                  
                 }
-            }
-
-            //foreach (var item in lista3)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            int califinal = Convert.ToInt32(lista3[0]);
-            return califinal;
+            }      
+            return califinal2;
         }
        
 
@@ -112,7 +101,7 @@ namespace ProyectoArqui
         {
             List<String> lista5 = new List<String>();
             HtmlWeb web5 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
+            String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document5 = web5.Load(url);
 
             foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-summary-wrap"))
@@ -124,7 +113,7 @@ namespace ProyectoArqui
                 lista5.Add(nodo4.InnerHtml);
             }
             url += "&page=";
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 int s = i;
                 String v = url + s;
