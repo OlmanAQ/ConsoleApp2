@@ -24,7 +24,7 @@ namespace ProyectoArqui
                 lista.Add(nodo.InnerHtml);
             }
             url += "?page=";
-            for (int i = 1; i <= 410; i++) 
+            for (int i = 1; i <= 4; i++) 
             {
                 int s = i;
                 String v = url + s;
@@ -40,7 +40,34 @@ namespace ProyectoArqui
                 Console.WriteLine("Nombre de película"+item);
             }           
         }
+        public void Sinopsis() // obtiene los titulos de todas las peliculas en la página sensacine
+        {
+            List<String> lista = new List<String>();
+            HtmlWeb web1 = new HtmlWeb();
 
+            String url = "http://www.sensacine.com/peliculas/criticas-sensacine/";
+            HtmlDocument document = web1.Load(url);
+            foreach (var nodo in document.DocumentNode.CssSelect(".content-txt"))
+            {
+                lista.Add(nodo.InnerHtml);
+            }
+            url += "?page=";
+            for (int i = 1; i <= 4; i++)
+            {
+                int s = i;
+                String v = url + s;
+                document = web1.Load(v);
+                foreach (var nodo in document.DocumentNode.CssSelect(".content-txt"))
+                {
+                    lista.Add(nodo.InnerHtml);
+                }
+            }
+
+            foreach (var item in lista)
+            {
+                Console.WriteLine("Signosis:" + item);
+            }
+        }
         public void PrimeraCalificacion() // obtiene las calificaciones de todas las peliculas en la página sensacine
         {
             List<String> lista2 = new List<String>();
@@ -75,7 +102,7 @@ namespace ProyectoArqui
         {
             List<String> lista3 = new List<String>();
             HtmlWeb web3 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
+            String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document3 = web3.Load(url);
 
             foreach (var nodo in document3.DocumentNode.CssSelect("a.title"))
@@ -83,7 +110,7 @@ namespace ProyectoArqui
                 lista3.Add(nodo.InnerHtml);
             }
             url += "&page=";
-            for (int i = 1; i <= 137; i++)
+            for (int i = 1; i <= 5; i++)
             {
                 int s = i;
                 String v = url + s;

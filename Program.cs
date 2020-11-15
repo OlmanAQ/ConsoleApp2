@@ -16,12 +16,14 @@ namespace ProyectoArqui
             //prueba.PrimeraPagina();
             //Operaciones prueba2 = new Operaciones();
             //prueba2.PrimeraCalificacion();
+            Operaciones prueba6 = new Operaciones();
+            prueba6.Sinopsis();
             //Operaciones prueba3 = new Operaciones();
             //prueba3.SegundaPagina();
             //Operaciones prueba4 = new Operaciones();
             //prueba4.SegundaCalificacion();
-            Operaciones prueba5 = new Operaciones();
-            prueba5.TerceraPagina();
+            //Operaciones prueba5 = new Operaciones();
+            //prueba5.TerceraPagina();
         }
     }
 }
