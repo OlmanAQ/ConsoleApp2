@@ -14,7 +14,7 @@ namespace ProyectoArqui
     { 
         public int califinal2;
         public float califinal;
-        public String fecha;
+        public String fecha, descripcion;
 
         //recibe el titulo compara y devuelve la calificacion
         public float PrimeraPagina(String nombre) // obtiene los titulos y calificacion de todas las peliculas en la página sensacine
@@ -36,7 +36,7 @@ namespace ProyectoArqui
                 }
             }
             url += "?page=";
-            for (int i = 1; i <= 20; i++)//66
+            for (int i = 1; i <= 66; i++)//66
             {
                 int s = i;
                 String v = url + s;
@@ -60,7 +60,6 @@ namespace ProyectoArqui
 
         public int SegundaPagina(String nombre2)  // obtiene los titulos y calificacion de todas las peliculas en la página de metacritic
         {
-            List<String> lista3 = new List<String>();
             HtmlWeb web3 = new HtmlWeb();
             String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document3 = web3.Load(url);
@@ -95,13 +94,11 @@ namespace ProyectoArqui
                 }
             }      
             return califinal2;
-        }
-       
+        }       
 
 
         public String TerceraPagina(String nombre3)  // obtiene la fecha de lanzamiento de todas las peliculas en la página de metacritic
         {
-            List<String> lista5 = new List<String>();
             HtmlWeb web5 = new HtmlWeb();
             String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document5 = web5.Load(url);
@@ -119,7 +116,7 @@ namespace ProyectoArqui
                 }
             }
             url += "&page=";
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 5; i++)//5
             {
                 int s = i;
                 String v = url + s;
@@ -141,7 +138,49 @@ namespace ProyectoArqui
         }
 
 
+        public String Sinopsis(String nombre3) // obtiene la sinopsis de cada película
+        {
+            HtmlWeb web1 = new HtmlWeb();
+            String url = "http://www.sensacine.com/peliculas/mejores/nota-sensacine/decada-2020/";
+            HtmlDocument document = web1.Load(url);
+            foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
+            {
+                var nodo2 = nodo.CssSelect(".tt_18.d_inline").First();
+                var prueba = nodo2.CssSelect("a.no_underline");
+                String titulo = Convert.ToString(prueba.First().InnerText);
+                //Console.WriteLine(titulo);
+                if (String.Equals(nombre3, titulo))
+                {
+                    var nodo3 = nodo.CssSelect("p").First();
+                    descripcion = nodo3.InnerHtml;
+                    //Console.WriteLine(descripcion);
+                    break;
+                }
+            }
+            url += "?page=";
+            for (int i = 1; i <= 66; i++)//66
+            {
+                int s = i;
+                String v = url + s;
+                document = web1.Load(v);
+                foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
+                {
+                    var nodo2 = nodo.CssSelect(".tt_18.d_inline").First();
+                    var prueba = nodo2.CssSelect("a");
+                    String titulo = Convert.ToString(prueba.First().InnerHtml);
+                    //Console.WriteLine(titulo);
+                    if (String.Equals(nombre3, titulo))
+                    {
+                        var nodo3 = nodo.CssSelect("p").First();
+                        descripcion = nodo3.InnerHtml;
+                        //Console.WriteLine(descripcion);
+                        break;
+                    }
 
+                }
+            }
+            return descripcion;
+        }
 
     }
 }

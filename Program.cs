@@ -22,7 +22,7 @@ namespace ProyectoArqui
                 linea = sr.ReadLine(); //Lee la primera línea de texto               
                 while (linea != null)  //Continúa leyendo hasta llegar al final del archivo
                 {
-                    Console.WriteLine("Pelicula: "+ linea);
+                    Console.WriteLine("Pelicula: " + linea);
                     Parallel.Invoke(
                         () =>
                         {
@@ -31,7 +31,7 @@ namespace ProyectoArqui
                                     {
 
                                         float cali3 = prueba.PrimeraPagina(linea);   //se manda el tiulo y se devuelve la calificacion
-                                        Console.WriteLine("Calificacion sensacine: "+ cali3);
+                                        Console.WriteLine("Calificacion sensacine: " + cali3);
 
                                     },// cierre de la primera accion
                                     () =>
@@ -47,13 +47,15 @@ namespace ProyectoArqui
                         () =>
                         {
 
-                            String fecha2 = prueba.TerceraPagina(linea); //se manda titulo y devuelve fecha de lanzamiento
+                            String fecha2 = prueba.TerceraPagina(linea); //se manda titulo y devuelve fecha exacta de lanzamiento
                             Console.WriteLine("Fecha exacta: " + fecha2);
 
                         }, //cierre de la segunda accion
                         () =>
                         {
-                            //nombre de la funcion
+
+                            String Sinopsis = prueba.Sinopsis(linea); //se manda titulo y devuelve la sinopsis
+                            Console.WriteLine("Sinopsis: " + Sinopsis);
 
                         } //cierre de la tercera accion
                     ); //cierre del parallel invoke                 
@@ -65,9 +67,6 @@ namespace ProyectoArqui
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-
-
-            
 
         }
     }
