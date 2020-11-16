@@ -9,157 +9,177 @@ using ScrapySharp.Extensions;
 
 namespace ProyectoArqui
 {
+    
     class Operaciones
-    {
+    { 
+        public int califinal2;
+        public float califinal;
+        public String fecha, descripcion;
 
-        public void PrimeraPagina() // obtiene los titulos de todas las peliculas en la página sensacine
+        //recibe el titulo compara y devuelve la calificacion
+        public float PrimeraPagina(String nombre) // obtiene los titulos y calificacion de todas las peliculas en la página sensacine
         {
             List<String> lista = new List<String>();
             HtmlWeb web1 = new HtmlWeb();
-
-            String url = "http://www.sensacine.com/peliculas/criticas-sensacine/";
+            String url = "http://www.sensacine.com/peliculas/mejores/nota-sensacine/decada-2020/";
             HtmlDocument document = web1.Load(url);
-            foreach (var nodo in document.DocumentNode.CssSelect(".meta-title-link"))
+
+            foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
             {
-                lista.Add(nodo.InnerHtml);
+                var nodo2 = nodo.CssSelect("a.no_underline").First();               
+                var titulo = nodo2.InnerHtml;
+                if (titulo.Equals(nombre))
+                {
+                    var nodo3 = nodo.CssSelect(".note").First();                  
+                    califinal = float.Parse(nodo3.InnerHtml);
+                    break;
+                }
             }
             url += "?page=";
-            for (int i = 1; i <= 410; i++) 
+            for (int i = 1; i <= 66; i++)//66
             {
                 int s = i;
                 String v = url + s;
                 document = web1.Load(v);
-                foreach (var nodo in document.DocumentNode.CssSelect(".meta-title-link"))
+                foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
                 {
-                    lista.Add(nodo.InnerHtml);
-                }               
-            }
-
-            foreach (var item in lista)
-            {
-                Console.WriteLine("Nombre de película"+item);
-            }           
-        }
-
-        public void PrimeraCalificacion() // obtiene las calificaciones de todas las peliculas en la página sensacine
-        {
-            List<String> lista2 = new List<String>();
-            HtmlWeb web2 = new HtmlWeb();
-            String url = "http://www.sensacine.com/peliculas/criticas-sensacine/";
-            HtmlDocument document2 = web2.Load(url);
-
-            foreach (var nodo in document2.DocumentNode.CssSelect(".stareval-note"))
-            {
-                lista2.Add(nodo.InnerHtml);
-            }
-            url += "?page=";
-            for (int i = 1; i <= 410; i++)
-            {
-                int s = i;
-                String v = url + s;
-                document2 = web2.Load(v);
-                foreach (var nodo in document2.DocumentNode.CssSelect(".stareval-note"))
-                {
-                    lista2.Add(nodo.InnerHtml);
+                    var nodo2 = nodo.CssSelect(".no_underline").First();
+                    var titulo = nodo2.InnerHtml;
+                    if (titulo.Equals(nombre))
+                    {
+                        var nodo3 = nodo.CssSelect(".note").First();
+                        califinal = float.Parse(nodo3.InnerHtml);
+                        break;
+                    }
                 }
             }
-
-            foreach (var item in lista2)
-            {
-                Console.WriteLine("nota de pelicula"+item);//van en el mismo orden que las peliculas
-            }
-
+            return califinal;
         }
 
-        public void SegundaPagina()  // obtiene los titulos de todas las peliculas en la página de metacritic
+
+
+        public int SegundaPagina(String nombre2)  // obtiene los titulos y calificacion de todas las peliculas en la página de metacritic
         {
-            List<String> lista3 = new List<String>();
             HtmlWeb web3 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
+            String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document3 = web3.Load(url);
 
-            foreach (var nodo in document3.DocumentNode.CssSelect("a.title"))
+            foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
             {
-                lista3.Add(nodo.InnerHtml);
+                var nodo2 = nodo.CssSelect("h3").First();
+                var titulo2 = nodo2.InnerHtml;
+                if (titulo2.Equals(nombre2))
+                {
+                    var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
+                    califinal2 = Convert.ToInt32(nodo3.InnerHtml);
+                    break;
+                }               
             }
             url += "&page=";
-            for (int i = 1; i <= 137; i++)
+            for (int i = 1; i <= 5; i++)//5
             {
                 int s = i;
                 String v = url + s;
-                Console.WriteLine(v);
                 document3 = web3.Load(v);
-                foreach (var nodo in document3.DocumentNode.CssSelect("a.title"))
+                foreach (var nodo in document3.DocumentNode.CssSelect(".clamp-summary-wrap"))
                 {
-                    lista3.Add(nodo.InnerHtml);
+                    var nodo2 = nodo.CssSelect("h3").First();
+                    var titulo2 = nodo2.InnerHtml;
+                    if (titulo2.Equals(nombre2))
+                    {
+                        var nodo3 = nodo.CssSelect(".metascore_w.large.movie").First();
+                        califinal2 = Convert.ToInt32(nodo3.InnerHtml);
+                        break;
+                    }                  
                 }
-            }
+            }      
+            return califinal2;
+        }       
 
-            foreach (var item in lista3)
-            {
-                Console.WriteLine("nombre de pelicula: " + item);//van en el mismo orden que las peliculas
-            }            
-        }
 
-        public void SegundaCalificacion()  // obtiene las calificaciones de todas las peliculas en la página de metacritic
+        public String TerceraPagina(String nombre3)  // obtiene la fecha de lanzamiento de todas las peliculas en la página de metacritic
         {
-            List<String> lista4 = new List<String>();
-            HtmlWeb web4 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
-            HtmlDocument document4 = web4.Load(url);
-
-            foreach (var nodo in document4.DocumentNode.CssSelect(".metascore_w.large.movie"))
-            {
-                lista4.Add(nodo.InnerHtml);
-            }
-            url += "&page=";
-            for (int i = 1; i <= 137; i++)
-            {
-                int s = i;
-                String v = url + s;
-                document4 = web4.Load(v);
-                foreach (var nodo in document4.DocumentNode.CssSelect(".metascore_w.large.movie"))
-                {
-                    lista4.Add(nodo.InnerHtml);
-                }
-            }
-
-            foreach (var item in lista4)
-            {
-                Console.WriteLine("nota de pelicula: " + item);//van en el mismo orden que las peliculas
-            }
-        }
-
-        //Esta aun no obtiene solo la fecha de lanzamiento.
-        public void TerceraPagina()  // obtiene la fecha de lanzamiento de todas las peliculas en la página de metacritic
-        {
-            List<String> lista5 = new List<String>();
             HtmlWeb web5 = new HtmlWeb();
-            String url = "https://www.metacritic.com/browse/movies/score/metascore/all/filtered?sort=desc";
+            String url = "https://www.metacritic.com/browse/movies/score/metascore/year/filtered?sort=desc";
             HtmlDocument document5 = web5.Load(url);
 
-            foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-details"))
+            foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-summary-wrap"))
             {
-                lista5.Add(nodo.InnerHtml);
+                var nodo2 = nodo.CssSelect("h3").First();
+                String titulo3 = nodo2.InnerHtml;
+                if (nombre3.Equals(titulo3))
+                {
+                    var nodo3 = nodo.CssSelect(".clamp-details");
+                    var nodo4 = nodo3.CssSelect("span").First();
+                    fecha = nodo4.InnerHtml;
+                    break;
+                }
             }
             url += "&page=";
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= 5; i++)//5
             {
                 int s = i;
                 String v = url + s;
                 document5 = web5.Load(v);
-                foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-details"))
+                foreach (var nodo in document5.DocumentNode.CssSelect(".clamp-summary-wrap"))
                 {
-                    lista5.Add(nodo.InnerHtml);
+                    var nodo2 = nodo.CssSelect("h3").First();
+                    String titulo3 = nodo2.InnerHtml;
+                    if (nombre3.Equals(titulo3))
+                    {
+                        var nodo3 = nodo.CssSelect(".clamp-details");
+                        var nodo4 = nodo3.CssSelect("span").First();
+                        fecha = nodo4.InnerHtml;
+                        break;
+                    }
                 }
             }
+            return fecha;   
+        }
 
-            foreach (var item in lista5)
+
+        public String Sinopsis(String nombre3) // obtiene la sinopsis de cada película
+        {
+            HtmlWeb web1 = new HtmlWeb();
+            String url = "http://www.sensacine.com/peliculas/mejores/nota-sensacine/decada-2020/";
+            HtmlDocument document = web1.Load(url);
+            foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
             {
-                Console.WriteLine("nota de pelicula: " + item);//van en el mismo orden que las peliculas
+                var nodo2 = nodo.CssSelect(".tt_18.d_inline").First();
+                var prueba = nodo2.CssSelect("a.no_underline");
+                String titulo = Convert.ToString(prueba.First().InnerText);
+                //Console.WriteLine(titulo);
+                if (String.Equals(nombre3, titulo))
+                {
+                    var nodo3 = nodo.CssSelect("p").First();
+                    descripcion = nodo3.InnerHtml;
+                    //Console.WriteLine(descripcion);
+                    break;
+                }
             }
+            url += "?page=";
+            for (int i = 1; i <= 66; i++)//66
+            {
+                int s = i;
+                String v = url + s;
+                document = web1.Load(v);
+                foreach (var nodo in document.DocumentNode.CssSelect(".data_box"))
+                {
+                    var nodo2 = nodo.CssSelect(".tt_18.d_inline").First();
+                    var prueba = nodo2.CssSelect("a");
+                    String titulo = Convert.ToString(prueba.First().InnerHtml);
+                    //Console.WriteLine(titulo);
+                    if (String.Equals(nombre3, titulo))
+                    {
+                        var nodo3 = nodo.CssSelect("p").First();
+                        descripcion = nodo3.InnerHtml;
+                        //Console.WriteLine(descripcion);
+                        break;
+                    }
 
-
+                }
+            }
+            return descripcion;
         }
 
     }
