@@ -5,25 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using ScrapySharp.Extensions;
+using System.IO;
 
 namespace ProyectoArqui
 {
    class Program
-    {
+   {
+
         static void Main(string[] args)
         {
             //Operaciones prueba = new Operaciones();
             //prueba.PrimeraPagina();
             //Operaciones prueba2 = new Operaciones();
             //prueba2.PrimeraCalificacion();
-            Operaciones prueba6 = new Operaciones();
-            prueba6.Sinopsis();
             //Operaciones prueba3 = new Operaciones();
             //prueba3.SegundaPagina();
             //Operaciones prueba4 = new Operaciones();
             //prueba4.SegundaCalificacion();
-            //Operaciones prueba5 = new Operaciones();
-            //prueba5.TerceraPagina();
+            Operaciones prueba5 = new Operaciones();
+            prueba5.TerceraPagina();
         }
     }
 }
